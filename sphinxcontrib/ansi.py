@@ -90,6 +90,22 @@ CODE_CLASS_MAP = {
     45: 'bg_magenta',
     46: 'bg_cyan',
     47: 'bg_white',
+    90: 'bright_black',
+    91: 'bright_red',
+    92: 'bright_green',
+    93: 'bright_yellow',
+    94: 'bright_blue',
+    95: 'bright_magenta',
+    96: 'bright_cyan',
+    97: 'bright_white',
+    100: 'bg_bright_black',
+    101: 'bg_bright_red',
+    102: 'bg_bright_green',
+    103: 'bg_bright_yellow',
+    104: 'bg_bright_blue',
+    105: 'bg_bright_magenta',
+    106: 'bg_bright_cyan',
+    107: 'bg_bright_white',
     }
 
 
@@ -158,8 +174,11 @@ class ANSIColorParser(object):
                 self.pending_nodes.append(code_node)
                 # and set the classes for its colors
                 for code in codes:
-                    code_node['classes'].append(
-                        'ansi-%s' % CODE_CLASS_MAP[code])
+                    if code in CODE_CLASS_MAP:
+                        code_node['classes'].append(
+                            'ansi-%s' % CODE_CLASS_MAP[code])
+                    else:
+                        console.warning(f'Unknown ANSI code: {code}')
         # add any trailing text
         tail = raw[last_end:]
         self._add_text(tail)
