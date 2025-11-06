@@ -230,7 +230,8 @@ class ANSIBlockDirective(rst.Directive):
     def run(self):
         text = '\n'.join(self.content)
         if 'string_escape' in self.options:
-            text = text.decode('string-escape')
+            # Python 3 compatibility: use encode/decode with unicode_escape
+            text = text.encode('utf-8').decode('unicode_escape')
         return [ansi_literal_block(text, text)]
 
 
